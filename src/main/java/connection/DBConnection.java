@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    public static final String DB_URL = "jdbc:postgresql://localhost:5432/HotelWEB";
+    public static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
     public static final String USER = "postgres";
-    public static final String PASS = "postgres";
+    public static final String PASS = "mysecretpassword";
 
     public static void checkPostgresDriver(){
         System.out.println("Testing connection to PostgreSQL JDBC");
@@ -23,7 +23,7 @@ public class DBConnection {
         System.out.println("PostgreSQL JDBC Driver successfully connected");
     }
     public static Connection getConnection(){
-        checkPostgresDriver();
+        //checkPostgresDriver();
         Connection connection = null;
 
         try {

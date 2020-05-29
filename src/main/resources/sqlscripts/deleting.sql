@@ -1,0 +1,13 @@
+DELETE FROM add_services;
+DELETE FROM buildings;
+DELETE FROM room_types;
+DELETE FROM rooms;
+DELETE FROM partners;
+DELETE FROM reservations;
+DELETE FROM res_rooms;
+DELETE FROM clients;
+DELETE FROM res_clients;
+DELETE FROM reviews;
+DELETE FROM contracts;
+DELETE FROM bills;
+DELETE FROM added_services;
