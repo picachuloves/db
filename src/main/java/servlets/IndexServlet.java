@@ -16,8 +16,9 @@ public class IndexServlet extends HttpServlet {
         SQLExecutor executor = new SQLExecutor();
         try
         {
-            executor.update("sqlscripts/createTables.sql");
-        } catch (Exception ex){
+          //  executor.update("sqlscripts/createTables.sql");
+          //  executor.update("sqlscripts/ins.sql");
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

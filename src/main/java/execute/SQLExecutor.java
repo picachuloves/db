@@ -14,19 +14,16 @@ public class SQLExecutor {
         try {
             ClassLoader classLoader = getClass().getClassLoader();
             File file = new File(classLoader.getResource(filepath).getFile());
-            //создаем объект FileReader для объекта File
             FileReader fr = new FileReader(file);
-            //создаем BufferedReader с существующего FileReader для построчного считывания
             BufferedReader reader = new BufferedReader(fr);
-            // считаем сначала первую строку
             String line = reader.readLine();
             while (line != null) {
                 Statement st = connection.createStatement();
                 int rs = st.executeUpdate(line);
                 st.close();
-                // считываем остальные строки в цикле
                 line = reader.readLine();
             }
+            reader.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

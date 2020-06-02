@@ -3,6 +3,7 @@ package connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DBConnection {
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
@@ -27,8 +28,13 @@ public class DBConnection {
         Connection connection = null;
 
         try {
-            connection = DriverManager
-                    .getConnection(DB_URL, USER, PASS);
+            Properties properties = new Properties();
+            properties.setProperty("user", USER);
+            properties.setProperty("password", PASS);
+            properties.setProperty("useUnicode","true");
+            properties.setProperty("characterEncoding","ru_UA.UTF-8");
+            connection = DriverManager.getConnection(DB_URL,properties);
+
 
         } catch (SQLException e) {
             System.out.println("Connection Failed");
