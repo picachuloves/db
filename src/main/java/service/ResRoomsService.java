@@ -84,11 +84,10 @@ public class ResRoomsService implements ResRoomsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            resRooms.setId_room(resultSet.getInt("id_room"));
-            resRooms.setId_reservation(resultSet.getInt("id_reservation"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                resRooms.setId_room(resultSet.getInt("id_room"));
+                resRooms.setId_reservation(resultSet.getInt("id_reservation"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -115,11 +114,10 @@ public class ResRoomsService implements ResRoomsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            resRooms.setId_room(resultSet.getInt("id_room"));
-            resRooms.setId_reservation(resultSet.getInt("id_reservation"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                resRooms.setId_room(resultSet.getInt("id_room"));
+                resRooms.setId_reservation(resultSet.getInt("id_reservation"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

@@ -85,12 +85,11 @@ public class BillsService implements BillsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            bills.setBill_number(resultSet.getInt("bill_number"));
-            bills.setId_contract(resultSet.getInt("id_contract"));
-            bills.setBill(resultSet.getBigDecimal("bill"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                bills.setBill_number(resultSet.getInt("bill_number"));
+                bills.setId_contract(resultSet.getInt("id_contract"));
+                bills.setBill(resultSet.getBigDecimal("bill"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

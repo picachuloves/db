@@ -89,16 +89,15 @@ public class AddServicesService implements AddServicesRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            addServices.setId(resultSet.getInt("id"));
-            addServices.setServices(resultSet.getString("services"));
-            addServices.setServices_allowance(resultSet.getBigDecimal("services_allowance"));
-            addServices.setFood(resultSet.getString("food"));
-            addServices.setFood_allowance(resultSet.getBigDecimal("food_allowance"));
-            addServices.setEntertainments(resultSet.getString("entertainments"));
-            addServices.setEntertainments_allowance(resultSet.getBigDecimal("entertainments_allowance"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                addServices.setId(resultSet.getInt("id"));
+                addServices.setServices(resultSet.getString("services"));
+                addServices.setServices_allowance(resultSet.getBigDecimal("services_allowance"));
+                addServices.setFood(resultSet.getString("food"));
+                addServices.setFood_allowance(resultSet.getBigDecimal("food_allowance"));
+                addServices.setEntertainments(resultSet.getString("entertainments"));
+                addServices.setEntertainments_allowance(resultSet.getBigDecimal("entertainments_allowance"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

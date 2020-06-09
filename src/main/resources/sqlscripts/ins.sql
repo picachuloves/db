@@ -2,13 +2,12 @@ INSERT INTO add_services(services, services_allowance, food, food_allowance, ent
 INSERT INTO add_services(services, services_allowance, food, food_allowance, entertainments, entertainments_allowance) values('Ежедневная уборка номера, прачечная, химчистка','100','Ресторан "Лес", кафе "Океан", бар "Море"','70','Бассейн, сауна, бильярд, аниматоры','200');
 INSERT INTO add_services(services, services_allowance, food, food_allowance, entertainments, entertainments_allowance) values('Ежедневная уборка номера, прачечная','70','кафе "Океан", бар "Море"','50','Бассейн, сауна, бильярд','100');
 INSERT INTO add_services(services, services_allowance, food, food_allowance, entertainments, entertainments_allowance) values('Ежедневная уборка номера','50','бар "Море"','10','Cауна, бильярд','10');
-INSERT INTO add_services(services, services_allowance, food, food_allowance, entertainments, entertainments_allowance) values('Ежедневная уборка номера','50','бар "Море"','10','Cауна, бильярд','10');
 
 INSERT INTO buildings(stars_number, floors_number, rooms_per_floor_number, rooms_number, building_min_price, id_add_services) values('5','5','10','50','5000','1');
 INSERT INTO buildings(stars_number, floors_number, rooms_per_floor_number, rooms_number, building_min_price, id_add_services) values('4','5','10','50','3000','2');
 INSERT INTO buildings(stars_number, floors_number, rooms_per_floor_number, rooms_number, building_min_price, id_add_services) values('3','5','10','50','1000','3');
 INSERT INTO buildings(stars_number, floors_number, rooms_per_floor_number, rooms_number, building_min_price, id_add_services) values('2','5','10','50','500','4');
-INSERT INTO buildings(stars_number, floors_number, rooms_per_floor_number, rooms_number, building_min_price, id_add_services) values('2','5','10','50','500','5');
+INSERT INTO buildings(stars_number, floors_number, rooms_per_floor_number, rooms_number, building_min_price, id_add_services) values('2','5','10','50','500','4');
 
 
 INSERT INTO room_types(floor, people_number, service_cost_per_day, min_price) values('5','1','200','300');

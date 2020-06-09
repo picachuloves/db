@@ -55,7 +55,7 @@ public class ReservationsService implements ReservationsRepos {
 
             while (resultSet.next()) {
                 Reservations reservations = new Reservations();
-
+                reservations.setId(resultSet.getInt("id"));
                 reservations.setRes_partner(resultSet.getInt("res_partner"));
                 reservations.setStars_number(resultSet.getInt("stars_number"));
                 reservations.setFloor_number(resultSet.getInt("floor_number"));
@@ -91,16 +91,15 @@ public class ReservationsService implements ReservationsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            reservations.setId(resultSet.getInt("id"));
-            reservations.setRes_partner(resultSet.getInt("res_partner"));
-            reservations.setStars_number(resultSet.getInt("stars_number"));
-            reservations.setFloor_number(resultSet.getInt("floor_number"));
-            reservations.setRes_date_start(resultSet.getDate("res_date_start"));
-            reservations.setRes_date_end(resultSet.getDate("res_date_end"));
-            reservations.setDiscount(resultSet.getInt("discount"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                reservations.setId(resultSet.getInt("id"));
+                reservations.setRes_partner(resultSet.getInt("res_partner"));
+                reservations.setStars_number(resultSet.getInt("stars_number"));
+                reservations.setFloor_number(resultSet.getInt("floor_number"));
+                reservations.setRes_date_start(resultSet.getDate("res_date_start"));
+                reservations.setRes_date_end(resultSet.getDate("res_date_end"));
+                reservations.setDiscount(resultSet.getInt("discount"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

@@ -93,16 +93,15 @@ public class BuildingsService implements BuildingsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            buildings.setId(resultSet.getInt("id"));
-            buildings.setStars_number(resultSet.getInt("stars_number"));
-            buildings.setFloors_number(resultSet.getInt("floors_number"));
-            buildings.setRooms_number(resultSet.getInt("rooms_number"));
-            buildings.setRooms_per_floor_number(resultSet.getInt("rooms_per_floor_number"));
-            buildings.setBuilding_min_price(resultSet.getBigDecimal("building_min_price"));
-            buildings.setId_add_services(resultSet.getInt("id_add_services"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                buildings.setId(resultSet.getInt("id"));
+                buildings.setStars_number(resultSet.getInt("stars_number"));
+                buildings.setFloors_number(resultSet.getInt("floors_number"));
+                buildings.setRooms_number(resultSet.getInt("rooms_number"));
+                buildings.setRooms_per_floor_number(resultSet.getInt("rooms_per_floor_number"));
+                buildings.setBuilding_min_price(resultSet.getBigDecimal("building_min_price"));
+                buildings.setId_add_services(resultSet.getInt("id_add_services"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

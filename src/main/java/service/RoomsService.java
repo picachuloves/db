@@ -52,7 +52,7 @@ public class RoomsService implements RoomsRepos {
 
             while (resultSet.next()) {
                 Rooms rooms = new Rooms();
-
+                rooms.setId(resultSet.getInt("id"));
                 rooms.setId_building(resultSet.getInt("id_building"));
                 rooms.setId_room_types(resultSet.getInt("id_room_types"));
 
@@ -84,11 +84,10 @@ public class RoomsService implements RoomsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            rooms.setId_building(resultSet.getInt("id_building"));
-            rooms.setId_room_types(resultSet.getInt("id_room_types"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                rooms.setId_building(resultSet.getInt("id_building"));
+                rooms.setId_room_types(resultSet.getInt("id_room_types"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

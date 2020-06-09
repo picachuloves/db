@@ -85,12 +85,11 @@ public class ClientsService implements ClientsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            clients.setId(resultSet.getInt("id"));
-            clients.setFio(resultSet.getString("fio"));
-            clients.setPhone_number(resultSet.getString("phone_number"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                clients.setId(resultSet.getInt("id"));
+                clients.setFio(resultSet.getString("fio"));
+                clients.setPhone_number(resultSet.getString("phone_number"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

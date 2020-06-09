@@ -86,12 +86,13 @@ public class AddedServicesService implements AddedServicesRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            addedServices.setId(resultSet.getInt("id"));
-            addedServices.setBill_number(resultSet.getInt("bill_number"));
-            addedServices.setAdd_service(resultSet.getString("add_service"));
-            addedServices.setService_bill(resultSet.getBigDecimal("service_bill"));
+            if(resultSet.next()) {
+                addedServices.setId(resultSet.getInt("id"));
+                addedServices.setBill_number(resultSet.getInt("bill_number"));
+                addedServices.setAdd_service(resultSet.getString("add_service"));
+                addedServices.setService_bill(resultSet.getBigDecimal("service_bill"));
+            }
 
-            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -118,13 +119,12 @@ public class AddedServicesService implements AddedServicesRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            addedServices.setId(resultSet.getInt("id"));
-            addedServices.setBill_number(resultSet.getInt("bill_number"));
-            addedServices.setAdd_service(resultSet.getString("add_service"));
-            addedServices.setService_bill(resultSet.getBigDecimal("service_bill"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                addedServices.setId(resultSet.getInt("id"));
+                addedServices.setBill_number(resultSet.getInt("bill_number"));
+                addedServices.setAdd_service(resultSet.getString("add_service"));
+                addedServices.setService_bill(resultSet.getBigDecimal("service_bill"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

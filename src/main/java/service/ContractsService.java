@@ -91,15 +91,14 @@ public class ContractsService implements ContractsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            contracts.setContract_number(resultSet.getInt("contract_number"));
-            contracts.setId_client(resultSet.getInt("id_client"));
-            contracts.setId_room(resultSet.getInt("id_room"));
-            contracts.setLiving_start(resultSet.getDate("living_start"));
-            contracts.setLiving_end(resultSet.getDate("living_end"));
-            contracts.setId_reservation(resultSet.getInt("id_reservation"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                contracts.setContract_number(resultSet.getInt("contract_number"));
+                contracts.setId_client(resultSet.getInt("id_client"));
+                contracts.setId_room(resultSet.getInt("id_room"));
+                contracts.setLiving_start(resultSet.getDate("living_start"));
+                contracts.setLiving_end(resultSet.getDate("living_end"));
+                contracts.setId_reservation(resultSet.getInt("id_reservation"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

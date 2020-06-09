@@ -83,11 +83,10 @@ public class ResClientsService implements ResClientsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            resClients.setId_client(resultSet.getInt("id_client"));
-            resClients.setId_reservation(resultSet.getInt("id_reservation"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                resClients.setId_client(resultSet.getInt("id_client"));
+                resClients.setId_reservation(resultSet.getInt("id_reservation"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -114,11 +113,10 @@ public class ResClientsService implements ResClientsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            resClients.setId_client(resultSet.getInt("id_client"));
-            resClients.setId_reservation(resultSet.getInt("id_reservation"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                resClients.setId_client(resultSet.getInt("id_client"));
+                resClients.setId_reservation(resultSet.getInt("id_reservation"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

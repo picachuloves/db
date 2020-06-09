@@ -54,7 +54,7 @@ public class PartnersService implements PartnersRepos {
 
             while (resultSet.next()) {
                 Partners partners = new Partners();
-
+                partners.setContract_number(resultSet.getInt("contract_number"));
                 partners.setInformation(resultSet.getString("information"));
                 partners.setCooperation_date_start(resultSet.getDate("cooperation_date_start"));
                 partners.setCooperation_date_end(resultSet.getDate("cooperation_date_end"));
@@ -78,7 +78,7 @@ public class PartnersService implements PartnersRepos {
         connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = null;
 
-        String sql = "SELECT * FROM partners WHERE id=?";
+        String sql = "SELECT * FROM partners WHERE contract_number=?";
 
         Partners partners = new Partners();
         try {
@@ -86,13 +86,12 @@ public class PartnersService implements PartnersRepos {
             preparedStatement.setInt(1, number);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            partners.setContract_number(resultSet.getInt("contract_number"));
-            partners.setInformation(resultSet.getString("information"));
-            partners.setCooperation_date_start(resultSet.getDate("cooperation_date_start"));
-            partners.setCooperation_date_end(resultSet.getDate("cooperation_date_end"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                partners.setContract_number(resultSet.getInt("contract_number"));
+                partners.setInformation(resultSet.getString("information"));
+                partners.setCooperation_date_start(resultSet.getDate("cooperation_date_start"));
+                partners.setCooperation_date_end(resultSet.getDate("cooperation_date_end"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

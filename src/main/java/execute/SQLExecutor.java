@@ -3,6 +3,7 @@ package execute;
 import connection.DBConnection;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +15,7 @@ public class SQLExecutor {
         try {
             ClassLoader classLoader = getClass().getClassLoader();
             File file = new File(classLoader.getResource(filepath).getFile());
-            FileReader fr = new FileReader(file);
+            FileReader fr = new FileReader(file, StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(fr);
             String line = reader.readLine();
             while (line != null) {

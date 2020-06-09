@@ -89,13 +89,12 @@ public class ReviewsService implements ReviewsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            reviews.setId_client(resultSet.getInt("id_client"));
-            reviews.setId_room(resultSet.getInt("id_room"));
-            reviews.setMark(resultSet.getInt("mark"));
-            reviews.setReview(resultSet.getString("review"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                reviews.setId_client(resultSet.getInt("id_client"));
+                reviews.setId_room(resultSet.getInt("id_room"));
+                reviews.setMark(resultSet.getInt("mark"));
+                reviews.setReview(resultSet.getString("review"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -122,13 +121,12 @@ public class ReviewsService implements ReviewsRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            reviews.setId_client(resultSet.getInt("id_client"));
-            reviews.setId_room(resultSet.getInt("id_room"));
-            reviews.setMark(resultSet.getInt("mark"));
-            reviews.setReview(resultSet.getString("review"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                reviews.setId_client(resultSet.getInt("id_client"));
+                reviews.setId_room(resultSet.getInt("id_room"));
+                reviews.setMark(resultSet.getInt("mark"));
+                reviews.setReview(resultSet.getString("review"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

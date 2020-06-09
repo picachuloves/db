@@ -15,7 +15,7 @@ public class RoomTypesService implements RoomTypesRepos {
     public void add(RoomTypes roomTypes) throws SQLException {
         PreparedStatement preparedStatement = null;
 
-        String sql = "INSERT INTO room_types(floor, people_number, service_cost_per_day, min_price values(?,?,?,?)";
+        String sql = "INSERT INTO room_types(floor, people_number, service_cost_per_day, min_price) values(?,?,?,?)";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -86,14 +86,13 @@ public class RoomTypesService implements RoomTypesRepos {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            roomTypes.setId(resultSet.getInt("id"));
-            roomTypes.setFloor(resultSet.getInt("floor"));
-            roomTypes.setPeople_number(resultSet.getInt("people_number"));
-            roomTypes.setService_cost_per_day(resultSet.getBigDecimal("service_cost_per_day"));
-            roomTypes.setMin_price(resultSet.getBigDecimal("min_price"));
-
-            preparedStatement.executeUpdate();
+            if(resultSet.next()) {
+                roomTypes.setId(resultSet.getInt("id"));
+                roomTypes.setFloor(resultSet.getInt("floor"));
+                roomTypes.setPeople_number(resultSet.getInt("people_number"));
+                roomTypes.setService_cost_per_day(resultSet.getBigDecimal("service_cost_per_day"));
+                roomTypes.setMin_price(resultSet.getBigDecimal("min_price"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
