@@ -19,8 +19,10 @@ public interface ResClientsRepos {
     //update by id
     void updateByIdClient(ResClients resClients) throws SQLException;
     void updateByIdReservation(ResClients resClients) throws SQLException;
+    void update(ResClients before, ResClients after) throws SQLException;
 
     //delete by id
     void removeByIdClient(ResClients resClients) throws SQLException;
     void removeByIdReservation(ResClients resClients) throws SQLException;
+    void remove(ResClients resClients) throws SQLException;
 }

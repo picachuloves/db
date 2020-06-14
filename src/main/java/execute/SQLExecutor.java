@@ -33,4 +33,7 @@ public class SQLExecutor {
             }
         }
     }
+    public void execute(String filepath) throws SQLException{
+        Connection connection = DBConnection.getConnection();
+    }
 }

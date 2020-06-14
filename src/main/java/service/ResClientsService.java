@@ -181,6 +181,32 @@ public class ResClientsService implements ResClientsRepos {
             }
         }
     }
+    @Override
+    public void update(ResClients before, ResClients after) throws SQLException {
+        connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        String sql = "UPDATE res_clients SET id_client=?, id_reservation=? WHERE id_reservation=? AND id_client=?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, after.getId_client());
+            preparedStatement.setInt(2, after.getId_reservation());
+            preparedStatement.setInt(3, before.getId_reservation());
+            preparedStatement.setInt(4, before.getId_client());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
     @Override
     public void removeByIdClient(ResClients resClients) throws SQLException {
@@ -219,6 +245,30 @@ public class ResClientsService implements ResClientsRepos {
 
             preparedStatement.setInt(1, resClients.getId_reservation());
 
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    @Override
+    public void remove(ResClients resClients) throws SQLException {
+        connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        String sql = "DELETE FROM res_clients WHERE id_reservation=?, id_client=?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, resClients.getId_reservation());
+            preparedStatement.setInt(1, resClients.getId_client());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -177,4 +177,38 @@ public class ClientsService implements ClientsRepos {
             }
         }
     }
+    public List<Clients> getNewByDate(Date start, Date end) throws SQLException{
+        connection = DBConnection.getConnection();
+        List<Clients> list = new ArrayList<>();
+
+        String sql = "select clients.id, clients.fio, clients.phone_number, COUNT(*), contracts.living_start,  contracts.living_end from clients inner join contracts on clients.id=contracts.id_client group by clients.id, contracts.living_start,  contracts.living_end having COUNT(*)=1 and contracts.living_start > ? and contracts.living_end < ?; ";
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, start);
+            preparedStatement.setDate(2, end);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Clients clients = new Clients();
+
+                clients.setId(resultSet.getInt("id"));
+                clients.setFio(resultSet.getString("fio"));
+                clients.setPhone_number(resultSet.getString("phone_number"));
+
+                list.add(clients);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
 }

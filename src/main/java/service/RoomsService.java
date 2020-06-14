@@ -5,6 +5,7 @@ import connection.DBConnection;
 import model.Rooms;
 import repository.RoomsRepos;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,5 +152,100 @@ public class RoomsService implements RoomsRepos {
                 connection.close();
             }
         }
+    }
+
+    public List<Rooms> getFreeRooms() throws SQLException{
+        connection = DBConnection.getConnection();
+        List<Rooms> list = new ArrayList<>();
+
+        String sql = "select * from rooms where rooms.id not in (select rooms.id from rooms inner join contracts on contracts.contract_number=rooms.id where living_start<current_date and living_end>current_date)";
+
+
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                Rooms rooms = new Rooms();
+                rooms.setId(resultSet.getInt("id"));
+                rooms.setId_building(resultSet.getInt("id_building"));
+                rooms.setId_room_types(resultSet.getInt("id_room_types"));
+
+                list.add(rooms);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    public List<Rooms> getFreeRooms(int people_number, BigDecimal service_cost_per_day, BigDecimal min_price) throws SQLException {
+        connection = DBConnection.getConnection();
+        List<Rooms> list = new ArrayList<>();
+
+        String sql = "select * from rooms inner join room_types on rooms.id_room_types=room_types.id where rooms.id not in (select rooms.id from rooms inner join contracts on contracts.contract_number=rooms.id where living_start<current_date and living_end>current_date) and people_number>? and service_cost_per_day>? and min_price>?";
+
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, people_number);
+            preparedStatement.setBigDecimal(2, service_cost_per_day);
+            preparedStatement.setBigDecimal(3, min_price);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            while (resultSet.next()) {
+                Rooms rooms = new Rooms();
+                rooms.setId(resultSet.getInt("id"));
+                rooms.setId_building(resultSet.getInt("id_building"));
+                rooms.setId_room_types(resultSet.getInt("id_room_types"));
+
+                list.add(rooms);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    public int getReservedRoomsCount() throws SQLException {
+        connection = DBConnection.getConnection();
+        int count = 0;
+        String sql = "select count(distinct id_room) from reservations inner join res_rooms on reservations.id=res_rooms.id_reservation";
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return count;
     }
 }

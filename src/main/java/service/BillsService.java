@@ -77,7 +77,7 @@ public class BillsService implements BillsRepos {
         connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = null;
 
-        String sql = "SELECT * FROM bills WHERE id=?";
+        String sql = "SELECT * FROM bills WHERE bill_number=?";
 
         Bills bills = new Bills();
         try {

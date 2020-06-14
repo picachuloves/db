@@ -31,7 +31,7 @@ public class ReviewsService implements ReviewsRepos {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (preparedStatement != null) {
+            if (preparedStatement!=null) {
                 preparedStatement.close();
             }
             if (connection != null) {
@@ -141,6 +141,39 @@ public class ReviewsService implements ReviewsRepos {
     }
 
     @Override
+    public Reviews get(Integer client, Integer room) throws SQLException {
+        connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        String sql = "SELECT * FROM reviews WHERE id_room=? AND id_client=?";
+
+        Reviews reviews = new Reviews();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, room);
+            preparedStatement.setInt(2, client);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                reviews.setId_client(resultSet.getInt("id_client"));
+                reviews.setId_room(resultSet.getInt("id_room"));
+                reviews.setMark(resultSet.getInt("mark"));
+                reviews.setReview(resultSet.getString("review"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return reviews;
+    }
+
+    @Override
     public void updateByIdClient(Reviews reviews) throws SQLException {
         connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = null;
@@ -182,6 +215,35 @@ public class ReviewsService implements ReviewsRepos {
             preparedStatement.setInt(2, reviews.getMark());
             preparedStatement.setString(3, reviews.getReview());
             preparedStatement.setInt(4, reviews.getId_room());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    @Override
+    public void update(Reviews before, Reviews after) throws SQLException {
+        connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        String sql = "UPDATE reviews SET id_client=?, id_room=?, mark=?, review=? WHERE id_client=? AND id_room=?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, after.getId_client());
+            preparedStatement.setInt(2, after.getId_room());
+            preparedStatement.setInt(3, after.getMark());
+            preparedStatement.setString(4, after.getReview());
+            preparedStatement.setInt(5, before.getId_client());
+            preparedStatement.setInt(6, before.getId_room());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -245,6 +307,28 @@ public class ReviewsService implements ReviewsRepos {
             }
         }
     }
+    @Override
+    public void remove(Reviews reviews) throws SQLException {
+        connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = null;
 
+        String sql = "DELETE FROM reviews WHERE id_room=? and id_client=?";
 
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, reviews.getId_room());
+            preparedStatement.setInt(2, reviews.getId_client());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }

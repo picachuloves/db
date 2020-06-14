@@ -168,4 +168,41 @@ public class ReservationsService implements ReservationsRepos {
             }
         }
     }
+
+    public List<Reservations> getAvailableRes() throws SQLException{
+        connection = DBConnection.getConnection();
+        List<Reservations> list = new ArrayList<>();
+
+        String sql = "select * from reservations where reservations.id not in(select reservations.id from reservations where res_date_end < current_date);";
+
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                Reservations reservations = new Reservations();
+                reservations.setId(resultSet.getInt("id"));
+                reservations.setRes_partner(resultSet.getInt("res_partner"));
+                reservations.setStars_number(resultSet.getInt("stars_number"));
+                reservations.setFloor_number(resultSet.getInt("floor_number"));
+                reservations.setRes_date_start(resultSet.getDate("res_date_start"));
+                reservations.setRes_date_end(resultSet.getDate("res_date_end"));
+                reservations.setDiscount(resultSet.getInt("discount"));
+
+                list.add(reservations);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
 }

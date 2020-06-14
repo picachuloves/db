@@ -25,7 +25,13 @@ public class ContractsService implements ContractsRepos {
             preparedStatement.setInt(2, contracts.getId_room());
             preparedStatement.setDate(3, contracts.getLiving_start());
             preparedStatement.setDate(4, contracts.getLiving_end());
-            preparedStatement.setInt(5, contracts.getId_reservation());
+            if(contracts.getId_reservation()!=0)
+            {
+                preparedStatement.setInt(5, contracts.getId_reservation());
+            }else
+            {
+                preparedStatement.setNull(5, Types.INTEGER);
+            }
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

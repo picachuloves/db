@@ -182,6 +182,32 @@ public class ResRoomsService implements ResRoomsRepos {
             }
         }
     }
+    @Override
+    public void update(ResRooms before, ResRooms after) throws SQLException {
+        connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        String sql = "UPDATE res_rooms SET id_room=?, id_reservation=? WHERE id_reservation=? AND id_room=?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, after.getId_room());
+            preparedStatement.setInt(2, after.getId_reservation());
+            preparedStatement.setInt(3, before.getId_reservation());
+            preparedStatement.setInt(4, before.getId_room());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
     @Override
     public void removeByIdRoom(ResRooms resRooms) throws SQLException {
@@ -220,6 +246,30 @@ public class ResRoomsService implements ResRoomsRepos {
 
             preparedStatement.setInt(1, resRooms.getId_reservation());
 
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    @Override
+    public void remove(ResRooms resRooms) throws SQLException {
+        connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        String sql = "DELETE FROM res_rooms WHERE id_reservation=?, id_room=?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, resRooms.getId_reservation());
+            preparedStatement.setInt(2, resRooms.getId_room());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

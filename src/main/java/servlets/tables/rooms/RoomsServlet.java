@@ -1,8 +1,6 @@
 package servlets.tables.rooms;
 
-import model.RoomTypes;
 import model.Rooms;
-import service.RoomTypesService;
 import service.RoomsService;
 
 import javax.servlet.RequestDispatcher;
@@ -18,13 +16,22 @@ public class RoomsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RoomsService service = new RoomsService();
+        List<Rooms> free = null;
+        int freecount = 0;
+        int rescount = 0;
         List<Rooms> list = null;
         try {
+            free = service.getFreeRooms();
+            freecount = free.size();
             list = service.getAll();
+            rescount = service.getReservedRoomsCount();
         }
         catch (SQLException ex){
             ex.printStackTrace();
         }
+        float res = (float)rescount/(float)list.size() * 100;
+        req.setAttribute("freecount", freecount);
+        req.setAttribute("rescount", res);
         req.setAttribute("list", list);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/tables/rooms/rooms.jsp");
         requestDispatcher.forward(req, resp);

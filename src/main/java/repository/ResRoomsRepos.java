@@ -19,8 +19,10 @@ public interface ResRoomsRepos {
     //update by id
     void updateByIdRoom(ResRooms resRooms) throws SQLException;
     void updateByIdReservation(ResRooms resRooms) throws SQLException;
+    void update(ResRooms before, ResRooms after) throws SQLException;
 
     //delete by id
     void removeByIdRoom(ResRooms resRooms) throws SQLException;
     void removeByIdReservation(ResRooms resRooms) throws SQLException;
+    void remove(ResRooms resRooms) throws SQLException;
 }

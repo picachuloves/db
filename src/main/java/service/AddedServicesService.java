@@ -106,25 +106,24 @@ public class AddedServicesService implements AddedServicesRepos {
         return addedServices;
     }
 
+
+
     @Override
-    public AddedServices getByBillNumber(Integer id) throws SQLException {
+    public void updateById(AddedServices addedServices) throws SQLException {
         connection = DBConnection.getConnection();
         PreparedStatement preparedStatement = null;
 
-        String sql = "SELECT * FROM added_services WHERE bill_number=?";
+        String sql = "UPDATE added_services SET bill_number=?, add_service=?, service_bill=? WHERE id=?";
 
-        AddedServices addedServices = new AddedServices();
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
-                addedServices.setId(resultSet.getInt("id"));
-                addedServices.setBill_number(resultSet.getInt("bill_number"));
-                addedServices.setAdd_service(resultSet.getString("add_service"));
-                addedServices.setService_bill(resultSet.getBigDecimal("service_bill"));
-            }
+            preparedStatement.setInt(1, addedServices.getBill_number());
+            preparedStatement.setString(2, addedServices.getAdd_service());
+            preparedStatement.setBigDecimal(3, addedServices.getService_bill());
+            preparedStatement.setInt(4, addedServices.getId());
+
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -135,30 +134,32 @@ public class AddedServicesService implements AddedServicesRepos {
                 connection.close();
             }
         }
-        return addedServices;
     }
 
-    @Override
-    public void updateById(AddedServices addedServices) throws SQLException {
-        connection = DBConnection.getConnection();
-
-    }
-
-    @Override
-    public void updateByBillNumber(AddedServices addedServices) throws SQLException {
-        connection = DBConnection.getConnection();
-
-    }
 
     @Override
     public void removeById(AddedServices addedServices) throws SQLException {
         connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement = null;
 
+        String sql = "DELETE FROM added_services WHERE id=?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, addedServices.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
 
-    @Override
-    public void removeByBillNumber(AddedServices addedServices) throws SQLException {
-        connection = DBConnection.getConnection();
-
-    }
 }

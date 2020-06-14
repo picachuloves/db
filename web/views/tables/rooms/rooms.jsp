@@ -62,6 +62,8 @@
         <input id="myInput" type="text" placeholder="Search.." style="width:80%;">
         <br><br>
         <button class="w3-btn w3-hover-green w3-round-large" onclick="location.href='/addRoom'">Add room</button>
+        <label class="w3-green"><%=request.getAttribute("freecount")%> available rooms right now</label>
+        <label class="w3-blue"><%=(float)request.getAttribute("rescount")%>% reserved by partners</label>
         <table id="Table">
             <thead>
             <tr class="header">

@@ -14,13 +14,10 @@ public interface AddedServicesRepos {
     List<AddedServices> getAll() throws SQLException;
 
     AddedServices getById(Integer id) throws SQLException;
-    AddedServices getByBillNumber(Integer id) throws SQLException;
 
     //update by id
     void updateById(AddedServices addedServices) throws SQLException;
-    void updateByBillNumber(AddedServices addedServices) throws SQLException;
 
     //delete by id
     void removeById(AddedServices addedServices) throws SQLException;
-    void removeByBillNumber(AddedServices addedServices) throws SQLException;
 }
