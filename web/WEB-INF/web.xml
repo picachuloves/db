@@ -463,11 +463,11 @@
         <url-pattern>/select15</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>select16</servlet-name>
-        <servlet-class>servlets.selects.Select16Servlet</servlet-class>
+        <servlet-name>function</servlet-name>
+        <servlet-class>servlets.FunctionServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>select16</servlet-name>
-        <url-pattern>/select16</url-pattern>
+        <servlet-name>function</servlet-name>
+        <url-pattern>/function</url-pattern>
     </servlet-mapping>
 </web-app>

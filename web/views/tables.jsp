@@ -23,7 +23,7 @@
         <button class="w3-btn w3-hover-green w3-round-large" onclick="location.href='/buildings'">Buildings</button>
         <button class="w3-btn w3-hover-green w3-round-large" onclick="location.href='/roomtypes'">Room types</button>
         <button class="w3-btn w3-hover-green w3-round-large" onclick="location.href='/rooms'">Rooms</button>
-        <button class="w3-btn w3-hover-green w3-round-large" onclick="location.href='/reservations'">Reservations</ button>
+        <button class="w3-btn w3-hover-green w3-round-large" onclick="location.href='/reservations'">Reservations</button>
         <button class="w3-btn w3-hover-green w3-round-large" onclick="location.href='/resrooms'">Res rooms</button>
         <button class="w3-btn w3-hover-green w3-round-large" onclick="location.href='/resclients'">Res clients</button>
         <button class="w3-btn w3-hover-green w3-round-large" onclick="location.href='/reviews'">Reviews</button>

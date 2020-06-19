@@ -65,7 +65,6 @@ public class AddContractServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         Contracts contract = new Contracts();
         contract.setId_client(id_client);
         contract.setId_room(id_room);

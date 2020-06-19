@@ -28,6 +28,7 @@ public class ContractsService implements ContractsRepos {
             if(contracts.getId_reservation()!=0)
             {
                 preparedStatement.setInt(5, contracts.getId_reservation());
+                createRes(contracts.getId_client(), contracts.getId_room(), contracts.getId_reservation());
             }else
             {
                 preparedStatement.setNull(5, Types.INTEGER);
@@ -39,6 +40,47 @@ public class ContractsService implements ContractsRepos {
         } finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    private void createRes(int id_client, int id_room, int id_reservation) throws SQLException {
+        connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement1 = null;
+        PreparedStatement preparedStatement2 = null;
+
+        String res_rooms = "INSERT INTO res_rooms values(?,?);";
+        String res_clients = "INSERT INTO res_clients values(?,?);";
+        try {
+            connection.setAutoCommit(false);
+            preparedStatement1 = connection.prepareStatement(res_rooms);
+            preparedStatement1.setInt(1, id_room);
+            preparedStatement1.setInt(2, id_reservation);
+
+
+            int affectedRows = preparedStatement1.executeUpdate();
+
+            if (affectedRows > 0) {
+                preparedStatement2 = connection.prepareStatement(res_clients);
+                preparedStatement2.setInt(1, id_client);
+                preparedStatement2.setInt(2, id_reservation);
+                preparedStatement2.executeUpdate();
+            } else {
+                connection.rollback();
+            }
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement1 != null) {
+                preparedStatement1.close();
+            }
+            if (preparedStatement2 != null) {
+                preparedStatement2.close();
             }
             if (connection != null) {
                 connection.close();
@@ -171,5 +213,43 @@ public class ContractsService implements ContractsRepos {
                 connection.close();
             }
         }
+    }
+
+    public List<Contracts> getWillFreeByDate(Date date) throws SQLException{
+        connection = DBConnection.getConnection();
+        List<Contracts> list = new ArrayList<>();
+
+        String sql = "select * from contracts where living_start<current_date and living_end>current_date and living_end<?;";
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, date);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Contracts contracts = new Contracts();
+
+                contracts.setContract_number(resultSet.getInt("contract_number"));
+                contracts.setId_client(resultSet.getInt("id_client"));
+                contracts.setId_room(resultSet.getInt("id_room"));
+                contracts.setLiving_start(resultSet.getDate("living_start"));
+                contracts.setLiving_end(resultSet.getDate("living_end"));
+                contracts.setId_reservation(resultSet.getInt("id_reservation"));
+
+                list.add(contracts);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
     }
 }
